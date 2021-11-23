@@ -1,0 +1,6 @@
+python-osc
+asyncio
+redboard
+pylsl
+brainflow
+tensorflow
