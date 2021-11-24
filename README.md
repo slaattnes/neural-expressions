@@ -2,6 +2,10 @@
 
 Experimentations with Brain-to-Sculpture communication and EEG actuated robotic sculptures
 
+## Funding
+
+Project funded by DeepCA (Norwegian Research Council, grant agreement 286558) and FeLT (Norwegian Artistic Research Programme).
+
 ## Directory structure
 
  * [README.md](./README.md) This file
