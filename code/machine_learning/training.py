@@ -53,65 +53,86 @@ def create_data(starting_dir="data"):
     print("length:",len(combined_data))
     return combined_data
 
+def main():
 
-print("creating training data")
-traindata = create_data(starting_dir="data")
-train_X = []
-train_y = []
-for X, y in traindata:
-    train_X.append(X)
-    train_y.append(y)
+    '''Creating training data,
+    creating testing data,
+    finally shaping and fitting model.'''
 
-print("creating testing data")
-testdata = create_data(starting_dir="validation_data") # What data to choose? All/Most reasent/Random/Or "perfect" recording-conditions? Not mixing the training and validation datasets makes sense.
-test_X = []
-test_y = []
-for X, y in testdata:
-    test_X.append(X)
-    test_y.append(y)
+    print(main.__doc__)
 
-print(len(train_X))
-print(len(test_X))
+    while True:
 
+        try:
+            print("creating training data")
+            traindata = create_data(starting_dir="data")
+            train_X = []
+            train_y = []
+            for X, y in traindata:
+                train_X.append(X)
+                train_y.append(y)
+            print(len(train_X))
+            return True
+        except KeyboardInterrupt:
+            pass # Ctrl-C interruption
 
-print(np.array(train_X).shape)
-train_X = np.array(train_X).reshape(reshape)
-test_X = np.array(test_X).reshape(reshape)
+        else:
+            print("creating testing data")
+            testdata = create_data(starting_dir="validation_data") # What data to choose? All/Most reasent/Random/Or "perfect" recording-conditions? Not mixing the training and validation datasets makes sense.
+            test_X = []
+            test_y = []
+            for X, y in testdata:
+                test_X.append(X)
+                test_y.append(y)
+            print(len(test_X))
+            return True
+        except KeyboardInterrupt:
+            pass
 
-train_y = np.array(train_y)
-test_y = np.array(test_y)
+        finally:
+            print(np.array(train_X).shape)
+            train_X = np.array(train_X).reshape(reshape)
+            test_X = np.array(test_X).reshape(reshape)
 
-model = Sequential()
+            train_y = np.array(train_y)
+            test_y = np.array(test_y)
 
-model.add(Conv1D(64, (3), input_shape=train_X.shape[1:], padding='same')) # [64][3] 1-Dimentional Convolutional Network
-model.add(Activation('relu'))
+            model = Sequential()
 
-model.add(Conv1D(64, (2), padding='same'))
-model.add(Activation('relu'))
-model.add(MaxPooling1D(pool_size=(2)))
+            model.add(Conv1D(64, (3), input_shape=train_X.shape[1:], padding='same')) # [64][3] 1-Dimentional Convolutional Network
+            model.add(Activation('relu'))
 
-model.add(Conv1D(64, (2), padding='same'))
-model.add(Activation('relu'))
-model.add(MaxPooling1D(pool_size=(2)))
+            model.add(Conv1D(64, (2), padding='same'))
+            model.add(Activation('relu'))
+            model.add(MaxPooling1D(pool_size=(2)))
 
-model.add(Flatten())
+            model.add(Conv1D(64, (2), padding='same'))
+            model.add(Activation('relu'))
+            model.add(MaxPooling1D(pool_size=(2)))
 
-model.add(Dense(512))
+            model.add(Flatten())
 
-model.add(Dense(3))
-model.add(Activation('softmax'))
+            model.add(Dense(512))
 
-model.compile(loss='categorical_crossentropy',
-              optimizer='adam',
-              metrics=['accuracy'])
+            model.add(Dense(3))
+            model.add(Activation('softmax'))
 
-epochs = 10
-batch_size = 32
-for epoch in range(epochs):
-    model.fit(train_X, train_y, batch_size=batch_size, epochs=1, validation_data=(test_X, test_y))
-    score = model.evaluate(test_X, test_y, batch_size=batch_size)
-    #print(score)
-    MODEL_NAME = f"new_models/{round(score[1]*100,2)}-acc-64x3-batch-norm-{epoch}epoch-{int(time.time())}-loss-{round(score[0],2)}.model"
-    model.save(MODEL_NAME)
-print("saved:")
-print(MODEL_NAME)
+            model.compile(loss='categorical_crossentropy',
+                          optimizer='adam',
+                          metrics=['accuracy'])
+
+            epochs = 10
+            batch_size = 32
+            for epoch in range(epochs):
+                model.fit(train_X, train_y, batch_size=batch_size, epochs=1, validation_data=(test_X, test_y))
+                score = model.evaluate(test_X, test_y, batch_size=batch_size)
+                #print(score)
+                MODEL_NAME = f"new_models/{round(score[1]*100,2)}-acc-64x3-batch-norm-{epoch}epoch-{int(time.time())}-loss-{round(score[0],2)}.model"
+                model.save(MODEL_NAME)
+            print("saved:")
+            print(MODEL_NAME)
+        except KeyboardInterrupt:
+            pass
+
+if __name__ == "__main__":
+    main()

@@ -108,13 +108,22 @@ import RPi.GPIO as GPIO
 from RpiMotorLib import rpi_dc_lib
 import concurrent.futures
 
-# ====== tests for  DC motor L298 ====
+# L298 - Motor 1
+# ena - - 14
+# in1 - - 15
+# in2 - - 18
+# in3 - - 8
+# in4 - - 7
+# enB - - 25
+
+# L298 - Motor 2
 # ena - - 26
 # in1 - - 19
 # in2 - - 13
 # in3 - - 21
 # in4 - - 20
 # enB - - 16
+
 
 # ======== test motor 1 ==================
 
