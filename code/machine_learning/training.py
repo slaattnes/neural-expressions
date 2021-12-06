@@ -55,9 +55,11 @@ def create_data(starting_dir="data"):
 
 def main():
 
-    '''Creating training data,
+    '''
+    Creating training data,
     creating testing data,
-    finally shaping and fitting model.'''
+    finally shaping and fitting model.
+    '''
 
     print(main.__doc__)
 
@@ -72,11 +74,7 @@ def main():
                 train_X.append(X)
                 train_y.append(y)
             print(len(train_X))
-            return True
-        except KeyboardInterrupt:
-            pass # Ctrl-C interruption
 
-        else:
             print("creating testing data")
             testdata = create_data(starting_dir="validation_data") # What data to choose? All/Most reasent/Random/Or "perfect" recording-conditions? Not mixing the training and validation datasets makes sense.
             test_X = []
@@ -85,11 +83,7 @@ def main():
                 test_X.append(X)
                 test_y.append(y)
             print(len(test_X))
-            return True
-        except KeyboardInterrupt:
-            pass
 
-        finally:
             print(np.array(train_X).shape)
             train_X = np.array(train_X).reshape(reshape)
             test_X = np.array(test_X).reshape(reshape)
@@ -131,8 +125,11 @@ def main():
                 model.save(MODEL_NAME)
             print("saved:")
             print(MODEL_NAME)
+            
+            return False
+
         except KeyboardInterrupt:
-            pass
+            pass # Ctrl-C interruption
 
 if __name__ == "__main__":
     main()
